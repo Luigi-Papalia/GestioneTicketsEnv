@@ -40,10 +40,8 @@ services:
     image: roundcube/roundcubemail:latest
     container_name: webmail
     environment:
-      ROUNDCUBEMAIL_DEFAULT_HOST: ssl://mail
-      ROUNDCUBEMAIL_DEFAULT_PORT: 993
-      ROUNDCUBEMAIL_SMTP_SERVER: tls://mail
-      ROUNDCUBEMAIL_SMTP_PORT: 587
+      ROUNDCUBEMAIL_DEFAULT_HOST: mail
+      ROUNDCUBEMAIL_SMTP_SERVER: mail
     depends_on:
       - mail
     networks:
@@ -57,4 +55,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.16.238.0/24 
+        - subnet: 172.16.238.0/24

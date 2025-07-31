@@ -2,6 +2,10 @@
 
 This repository provides a Docker environment that includes a simple SMTP server with webmail and a local DNS service. It can be used for development or adapted for production deployments.
 
+## Pre-requisites
+
+This env works ONLY on linux. you can run it on WSL2 Ubuntu just fine.
+
 ## Components
 
 - **Bind9**: local DNS server used to expose an MX record for `example.local`.
@@ -21,6 +25,7 @@ All services run in the `mailnet` network and expose minimal ports for local usa
    docker compose up -d
    ```
 3. Point your system DNS to the container `dns` (e.g., `127.0.0.1`) so that the backend can resolve the `example.local` domain.
-4. Access Roundcube at <http://localhost:8080> and log in with the credentials created above.
+4. Access Roundcube at <http://localhost:8090> and log in with the credentials created above.
+5. Create a user with docker exec -ti mail setup email add mail@example.local strongpassword
 
 This environment is ready for local development. Adjust domain names and credentials in `docker-compose.yml`, `dns` configuration and `mailserver.env` for production deployment.
