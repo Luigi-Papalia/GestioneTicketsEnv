@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  dns:
+    image: internetsystemsconsortium/bind9:9.18
+    container_name: dns
+    volumes:
+      - ./dns/named.conf:/etc/bind/named.conf
+      - ./dns/zones:/etc/bind/zones
+    networks:
+      mailnet:
+        ipv4_address: 172.16.238.5
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+
+  mail:
+    image: mailserver/docker-mailserver:latest
+    container_name: mail
+    hostname: mail
+    domainname: example.local
+    env_file: mailserver.env
+    volumes:
+      - ./data/maildata:/var/mail
+      - ./data/mailstate:/var/mail-state
+      - ./data/maillogs:/var/log/mail
+      - ./config:/tmp/docker-mailserver
+    networks:
+      mailnet:
+        ipv4_address: 172.16.238.10
+    ports:
+      - "25:25"
+      - "587:587"
+      - "993:993"
+    restart: unless-stopped
+    depends_on:
+      - dns
+
+  webmail:
+    image: roundcube/roundcubemail:latest
+    container_name: webmail
+    environment:
+      ROUNDCUBEMAIL_DEFAULT_HOST: mail
+      ROUNDCUBEMAIL_SMTP_SERVER: mail
+    depends_on:
+      - mail
+    networks:
+      mailnet:
+        ipv4_address: 172.16.238.15
+    ports:
+      - "8080:80"
+
+networks:
+  mailnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
