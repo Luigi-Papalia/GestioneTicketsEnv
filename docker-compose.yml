@@ -50,11 +50,11 @@ services:
       mailnet:
         ipv4_address: 172.16.238.15
     ports:
-      - "8080:80"
+      - "8090:80"
 
 networks:
   mailnet:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.16.238.0/24
+        - subnet: 172.16.238.0/24 
