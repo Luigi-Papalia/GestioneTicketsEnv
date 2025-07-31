@@ -1,0 +1,12 @@
+$TTL 1h
+@   IN SOA ns.example.local. admin.example.local. (
+        1 ; Serial
+        1h ; Refresh
+        15m ; Retry
+        1w ; Expire
+        1h ) ; Negative Cache TTL
+;
+@       IN NS ns.example.local.
+@       IN MX 10 mail.example.local.
+ns      IN A 172.16.238.5
+mail    IN A 172.16.238.10
